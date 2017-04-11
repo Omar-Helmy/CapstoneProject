@@ -1,7 +1,8 @@
 # CapstoneProject
 
 This is the capstone project for the Android Nanodegree from Udacity. 
-First Version
+
+CAUTION: Under Development !
 
 ## Idea
 
