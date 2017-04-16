@@ -24,7 +24,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
                 DataContract.COLUMN_PRICE+" TEXT NOT NULL, "+
                 DataContract.COLUMN_DESCRIPTION+" TEXT NOT NULL, "+
                 DataContract.COLUMN_INGREDIENT+" TEXT NOT NULL, "+
-                DataContract.COLUMN_ORDER+" TEXT NOT NULL, "+
+                DataContract.COLUMN_ORDER+" TEXT, "+
                 DataContract.COLUMN_DETAILS+" TEXT NOT NULL, "+
                 DataContract.COLUMN_IMAGE+" TEXT NOT NULL, "+
                 DataContract.COLUMN_TYPE+" TEXT NOT NULL, "+

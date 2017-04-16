@@ -42,11 +42,25 @@ public class DataProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        // Implement this to handle requests to delete one or more rows.
-        throw new UnsupportedOperationException("Not yet implemented");
-        /*switch (uriMatcher.match(uri)) {
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        int rows;
+        switch(uriMatcher.match(uri)){
             case TABLE_MATCH:
-        }*/
+                rows = db.delete(DataContract.DATABASE_TABLE_NAME, null, null);
+                break;
+            case ITEM_ID_MATCH:
+                rows = db.delete(DataContract.DATABASE_TABLE_NAME,
+                        DataContract._ID+" == "+DataContract.getIdFromUri(uri), selectionArgs);
+                break;
+            case ITEM_NAME_MATCH:
+                rows = db.delete(DataContract.DATABASE_TABLE_NAME,
+                        DataContract.COLUMN_NAME+" == \""+uri.getLastPathSegment()+"\"", selectionArgs);
+                break;
+            default:
+                throw new UnsupportedOperationException("URI not matched!");
+        }
+        getContext().getContentResolver().notifyChange(uri, null);
+        return rows;
     }
 
     @Override
@@ -92,7 +106,7 @@ public class DataProvider extends ContentProvider {
                 break;
             case ITEM_NAME_MATCH:
                 newCursor = db.query(DataContract.DATABASE_TABLE_NAME,projection,
-                        DataContract.COLUMN_NAME+" == "+uri.getLastPathSegment(),selectionArgs,null,null,sortOrder);
+                        DataContract.COLUMN_NAME+" == \""+uri.getLastPathSegment()+"\"",selectionArgs,null,null,sortOrder);
                 newCursor.setNotificationUri(getContext().getContentResolver(), uri);
                 break;
 
