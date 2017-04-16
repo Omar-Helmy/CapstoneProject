@@ -12,15 +12,15 @@ public class DataProvider extends ContentProvider {
 
     // Creates a UriMatcher object.
     private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-    private static final int TABLE_MATCH=1, STRING_MATCH=2, NUMBER_MATCH=3;
+    private static final int TABLE_MATCH=1, ITEM_NAME_MATCH=2, ITEM_ID_MATCH=3;
 
     // Get database object
     DatabaseHelper databaseHelper;
 
     static {
         uriMatcher.addURI(DataContract.AUTHORITY, DataContract.DATABASE_TABLE_NAME, TABLE_MATCH);
-        uriMatcher.addURI(DataContract.AUTHORITY, DataContract.DATABASE_TABLE_NAME+"/*", STRING_MATCH);
-        uriMatcher.addURI(DataContract.AUTHORITY, DataContract.DATABASE_TABLE_NAME+"/#", NUMBER_MATCH);
+        uriMatcher.addURI(DataContract.AUTHORITY, DataContract.DATABASE_TABLE_NAME+"/#", ITEM_ID_MATCH);
+        uriMatcher.addURI(DataContract.AUTHORITY, DataContract.DATABASE_TABLE_NAME+"/*", ITEM_NAME_MATCH);
     }
 
     public DataProvider() {
@@ -59,7 +59,7 @@ public class DataProvider extends ContentProvider {
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        Uri newUri=null;
+        Uri newUri;
         long id;
         switch (uriMatcher.match(uri)){
             case TABLE_MATCH:
@@ -81,11 +81,21 @@ public class DataProvider extends ContentProvider {
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         Cursor newCursor;
         switch (uriMatcher.match(uri)){
-            case TABLE_MATCH:{
+            case TABLE_MATCH:
                 newCursor = db.query(DataContract.DATABASE_TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
                 newCursor.setNotificationUri(getContext().getContentResolver(), uri);
                 break;
-            }
+            case ITEM_ID_MATCH: /*NOTE: must match numeric # first before * as * will match any number or string!! */
+                newCursor = db.query(DataContract.DATABASE_TABLE_NAME,projection,
+                        DataContract._ID+" == "+DataContract.getIdFromUri(uri),selectionArgs,null,null,sortOrder);
+                newCursor.setNotificationUri(getContext().getContentResolver(), uri);
+                break;
+            case ITEM_NAME_MATCH:
+                newCursor = db.query(DataContract.DATABASE_TABLE_NAME,projection,
+                        DataContract.COLUMN_NAME+" == "+uri.getLastPathSegment(),selectionArgs,null,null,sortOrder);
+                newCursor.setNotificationUri(getContext().getContentResolver(), uri);
+                break;
+
             default: throw new UnsupportedOperationException("URI not matched!");
         }
         //db.close();   // causes crash!!

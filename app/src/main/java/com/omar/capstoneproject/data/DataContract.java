@@ -25,6 +25,7 @@ public final class DataContract implements BaseColumns{
     public static final String COLUMN_DETAILS = "details";
     public static final String COLUMN_IMAGE = "image";
     public static final String COLUMN_TYPE = "type";
+    public static final String COLUMN_FAVORITE = "favorite";
 
 
     /*Database Columns Index*/
@@ -37,6 +38,7 @@ public final class DataContract implements BaseColumns{
     public static final int POSITION_DETAILS = 6;
     public static final int POSITION_IMAGE = 7;
     public static final int POSITION_TYPE = 8;
+    public static final int POSITION_FAVORITE = 9;
 
 
     // create Uri with appended string to it to match "*"
@@ -48,6 +50,9 @@ public final class DataContract implements BaseColumns{
         return ContentUris.withAppendedId(DATA_URI, id);
     }
 
+    public static String getIdFromUri(Uri uri){
+        return String.valueOf(ContentUris.parseId(uri));
+    }
 }
 
 /*

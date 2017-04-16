@@ -195,7 +195,6 @@ public class FirstFragment extends Fragment implements LoaderManager.LoaderCallb
                     @Override
                     public void onClick(View v) {
                         cursor.moveToPosition(getAdapterPosition()-1);  // we sub one as there is split item at index 0
-                        Snackbar.make(v, cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_NAME)), Snackbar.LENGTH_SHORT).show();
                         Intent intent = new Intent(context, DetailActivity.class);
                         intent.putExtra(DataContract._ID, getAdapterPosition());    // 1 is already added
                         context.startActivity(intent);
