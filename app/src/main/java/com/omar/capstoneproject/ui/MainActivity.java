@@ -1,6 +1,7 @@
 package com.omar.capstoneproject.ui;
 
 import android.app.LoaderManager;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -130,13 +131,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void syncDataWithFirebase(){
-        boolean isDataStored = false;
+        // check if data fetched before
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPref.edit();
-        if(sharedPref.getBoolean(DATA_STORED_KEY,isDataStored))
+        if(sharedPref.getBoolean(DATA_STORED_KEY,false))
             // data already found
             return;
 
+        // connect to internet
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (!networkInfo.isConnectedOrConnecting()){
@@ -144,8 +146,12 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "No internet connection!", Toast.LENGTH_SHORT).show();
             return;
         }
-
-
+        // show progress dialog
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+        // Firebase
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         // Read from the database
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -161,10 +167,12 @@ public class MainActivity extends AppCompatActivity {
                 }
                 editor.putBoolean(DATA_STORED_KEY,true);
                 editor.apply();
+                progressDialog.dismiss();
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
+                progressDialog.dismiss();
                 Toast.makeText(MainActivity.this, "No internet connection!", Toast.LENGTH_SHORT).show();
             }
         });

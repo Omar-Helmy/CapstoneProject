@@ -28,7 +28,8 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
                 DataContract.COLUMN_DETAILS+" TEXT NOT NULL, "+
                 DataContract.COLUMN_IMAGE+" TEXT NOT NULL, "+
                 DataContract.COLUMN_TYPE+" TEXT NOT NULL, "+
-                DataContract.COLUMN_FAVORITE+" INTEGER);");
+                DataContract.COLUMN_FAVORITE+" INTEGER, "+
+                DataContract.COLUMN_TS+" TEXT);");
     }
 
     @Override

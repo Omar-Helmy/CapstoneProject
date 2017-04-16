@@ -9,4 +9,9 @@
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
+    <style name="CardTheme" parent="CardView.Dark">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:background">#7986CB</item>
+    </style>
+
 </resources>

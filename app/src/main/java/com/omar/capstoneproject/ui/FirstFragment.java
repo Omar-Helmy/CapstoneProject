@@ -51,8 +51,8 @@ public class FirstFragment extends Fragment implements LoaderManager.LoaderCallb
 
         /* setup recycle view with adapter */
         recyclerAdapter= new RecyclerAdapter();
-        GridLayoutManager saltyGridLayoutManager = new GridLayoutManager(context,2);
-        saltyGridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(context,2);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
                 if(position==0)
@@ -60,7 +60,7 @@ public class FirstFragment extends Fragment implements LoaderManager.LoaderCallb
                 return 1;
             }
         });
-        recyclerView.setLayoutManager(saltyGridLayoutManager);
+        recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(recyclerAdapter);
 
         return rootView;

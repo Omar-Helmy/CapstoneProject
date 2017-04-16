@@ -26,6 +26,7 @@ public final class DataContract implements BaseColumns{
     public static final String COLUMN_IMAGE = "image";
     public static final String COLUMN_TYPE = "type";
     public static final String COLUMN_FAVORITE = "favorite";
+    public static final String COLUMN_TS = "timestamp";
 
 
     /*Database Columns Index*/
@@ -39,6 +40,7 @@ public final class DataContract implements BaseColumns{
     public static final int POSITION_IMAGE = 7;
     public static final int POSITION_TYPE = 8;
     public static final int POSITION_FAVORITE = 9;
+    public static final int POSITION_TS = 10;
 
     // create Uri with appended string to it to match "*"
     public static Uri appendToUri(String path){

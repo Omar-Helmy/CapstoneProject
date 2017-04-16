@@ -10,6 +10,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.util.TimeUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,6 +29,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.omar.capstoneproject.R;
 import com.omar.capstoneproject.data.DataContract;
+
+import java.util.Date;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -74,15 +77,14 @@ public class DetailActivity extends AppCompatActivity {
         recyclerAdapter.updateCursor(cursor);
 
         /* update fab drawable */
-        final int favorite = cursor.getInt(cursor.getColumnIndex(DataContract.COLUMN_FAVORITE));
-        fab.setImageResource(favorite==1 ?
+        fab.setImageResource(cursor.getInt(cursor.getColumnIndex(DataContract.COLUMN_FAVORITE))==1 ?
                 R.drawable.ic_done_white_48dp : R.drawable.ic_add_shopping_cart_white_48dp);
 
         /* order food */
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(favorite==0){
+                if(cursor.getInt(cursor.getColumnIndex(DataContract.COLUMN_FAVORITE))==0){
                     // create dialog to get #of orders
                     OrderDialog orderDialog = new OrderDialog();
                     orderDialog.show(getSupportFragmentManager(), OrderDialog.class.getSimpleName());
@@ -116,6 +118,7 @@ public class DetailActivity extends AppCompatActivity {
                             ContentValues cv = new ContentValues(1);
                             cv.put(DataContract.COLUMN_FAVORITE, 1);
                             cv.put(DataContract.COLUMN_ORDER, numberPicker.getValue());
+                            cv.put(DataContract.COLUMN_TS, String.valueOf(System.currentTimeMillis()));
                             getActivity().getContentResolver().update(DataContract.appendToUri(ID),cv,null,null);
                             Snackbar.make(fab, "Done, Added to your orders!", Snackbar.LENGTH_SHORT).show();
                             fab.setImageResource(R.drawable.ic_done_white_48dp);

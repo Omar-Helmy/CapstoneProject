@@ -114,7 +114,7 @@ public class DataProvider extends ContentProvider {
                 break;
             case ITEM_NAME_MATCH:
                 rows = db.update(DataContract.DATABASE_TABLE_NAME, values,
-                        DataContract.COLUMN_NAME+" == "+uri.getLastPathSegment(), selectionArgs);
+                        DataContract.COLUMN_NAME+" == \""+uri.getLastPathSegment()+"\"", selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("URI not matched!");
