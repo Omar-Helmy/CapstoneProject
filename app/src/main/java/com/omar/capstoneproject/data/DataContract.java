@@ -40,7 +40,6 @@ public final class DataContract implements BaseColumns{
     public static final int POSITION_TYPE = 8;
     public static final int POSITION_FAVORITE = 9;
 
-
     // create Uri with appended string to it to match "*"
     public static Uri appendToUri(String path){
         return DATA_URI.buildUpon().appendPath(path).build();

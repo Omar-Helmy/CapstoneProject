@@ -105,8 +105,22 @@ public class DataProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
-        // TODO: Implement this to handle requests to update one or more rows.
-        throw new UnsupportedOperationException("Not yet implemented");
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        int rows;
+        switch(uriMatcher.match(uri)){
+            case ITEM_ID_MATCH:
+                rows = db.update(DataContract.DATABASE_TABLE_NAME, values,
+                        DataContract._ID+" == "+DataContract.getIdFromUri(uri), selectionArgs);
+                break;
+            case ITEM_NAME_MATCH:
+                rows = db.update(DataContract.DATABASE_TABLE_NAME, values,
+                        DataContract.COLUMN_NAME+" == "+uri.getLastPathSegment(), selectionArgs);
+                break;
+            default:
+                throw new UnsupportedOperationException("URI not matched!");
+        }
+        getContext().getContentResolver().notifyChange(uri, null);
+        return rows;
     }
 }
 

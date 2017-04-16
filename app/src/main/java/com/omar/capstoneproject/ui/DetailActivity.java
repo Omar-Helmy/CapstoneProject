@@ -1,11 +1,16 @@
 package com.omar.capstoneproject.ui;
 
+import android.app.Dialog;
+import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,7 +21,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.omar.capstoneproject.R;
@@ -30,7 +37,8 @@ public class DetailActivity extends AppCompatActivity {
     private CollapsingToolbarLayout collapsingToolbar;
     private RecyclerAdapter recyclerAdapter;
     private RecyclerView recyclerView;
-    private FloatingActionButton fab;
+    private static FloatingActionButton fab;
+    private static long ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +57,8 @@ public class DetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         /* get intent to get data from cursor */
-        cursor = getContentResolver().query(DataContract.appendToUri((long) getIntent().getIntExtra(DataContract._ID,0)),null,
-                null,null,null);
+        ID = (long) getIntent().getIntExtra(DataContract._ID,0);
+        cursor = getContentResolver().query(DataContract.appendToUri(ID),null,null,null,null);
         cursor.moveToFirst();
 
         /* setup collapse tool bar with title and image*/
@@ -65,17 +73,63 @@ public class DetailActivity extends AppCompatActivity {
         recyclerView.setAdapter(recyclerAdapter);
         recyclerAdapter.updateCursor(cursor);
 
+        /* update fab drawable */
+        final int favorite = cursor.getInt(cursor.getColumnIndex(DataContract.COLUMN_FAVORITE));
+        fab.setImageResource(favorite==1 ?
+                R.drawable.ic_done_white_48dp : R.drawable.ic_add_shopping_cart_white_48dp);
+
         /* order food */
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(v, "Done, Added to your orders!", Snackbar.LENGTH_SHORT).show();
+                if(favorite==0){
+                    // create dialog to get #of orders
+                    OrderDialog orderDialog = new OrderDialog();
+                    orderDialog.show(getSupportFragmentManager(), OrderDialog.class.getSimpleName());
+                }else{
+                    Snackbar.make(fab, "Already added, to remove go to your orders", Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
-
-
     }
 
+    /////////////////////////////// Dialog /////////////////////////////////////////
+    public static class OrderDialog extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            // Get the layout inflater
+            final View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_number_picker,null);
+            // Number picker
+            final NumberPicker numberPicker = (NumberPicker) view.findViewById(R.id.num_pick);
+            numberPicker.setMaxValue(100);
+            numberPicker.setMinValue(1);
+            numberPicker.setWrapSelectorWheel(true);
+
+            builder.setTitle("Number of Orders")
+                    .setMessage("Please, choose number of orders:")
+                    .setView(view)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // OK
+                            ContentValues cv = new ContentValues(1);
+                            cv.put(DataContract.COLUMN_FAVORITE, 1);
+                            cv.put(DataContract.COLUMN_ORDER, numberPicker.getValue());
+                            getActivity().getContentResolver().update(DataContract.appendToUri(ID),cv,null,null);
+                            Snackbar.make(fab, "Done, Added to your orders!", Snackbar.LENGTH_SHORT).show();
+                            fab.setImageResource(R.drawable.ic_done_white_48dp);
+                        }
+                    })
+                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User cancelled the dialog
+                        }
+                    });
+            // Create the AlertDialog object and return it
+            return builder.create();
+        }
+    }
     /////////////////////////////// Recycle Adapter /////////////////////////////////
     private class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
