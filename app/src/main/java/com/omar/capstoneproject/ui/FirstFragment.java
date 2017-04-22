@@ -196,7 +196,8 @@ public class FirstFragment extends Fragment implements LoaderManager.LoaderCallb
                     public void onClick(View v) {
                         cursor.moveToPosition(getAdapterPosition()-1);  // we sub one as there is split item at index 0
                         Intent intent = new Intent(context, DetailActivity.class);
-                        intent.putExtra(DataContract._ID, getAdapterPosition());    // 1 is already added
+                        intent.putExtra(DataContract.COLUMN_NAME,
+                                cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_NAME)));    // 1 is already added
                         context.startActivity(intent);
                     }
                 });

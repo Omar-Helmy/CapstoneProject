@@ -187,7 +187,7 @@ public class SecondFragment extends Fragment implements LoaderManager.LoaderCall
             public void setupData(){
                 cursor.moveToPosition(getAdapterPosition());
                 nameText.setText(cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_NAME)));
-                timeText.setText(DateFormat.format("hh:mm - dd/mm/yyyy",
+                timeText.setText(DateFormat.format("hh:mm a - dd/MM/yyyy",
                         Long.parseLong(cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_TS)))));
                 priceText.setText(cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_PRICE)));
                 countText.setText("Orders: "+cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_ORDER)));

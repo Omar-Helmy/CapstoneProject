@@ -41,7 +41,7 @@ public class DetailActivity extends AppCompatActivity {
     private RecyclerAdapter recyclerAdapter;
     private RecyclerView recyclerView;
     private static FloatingActionButton fab;
-    private static long ID;
+    private static String NAME;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +60,8 @@ public class DetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         /* get intent to get data from cursor */
-        ID = (long) getIntent().getIntExtra(DataContract._ID,0);
-        cursor = getContentResolver().query(DataContract.appendToUri(ID),null,null,null,null);
+        NAME = getIntent().getStringExtra(DataContract.COLUMN_NAME);
+        cursor = getContentResolver().query(DataContract.appendToUri(NAME), null, null, null, null);
         cursor.moveToFirst();
 
         /* setup collapse tool bar with title and image*/
@@ -119,7 +119,7 @@ public class DetailActivity extends AppCompatActivity {
                             cv.put(DataContract.COLUMN_FAVORITE, 1);
                             cv.put(DataContract.COLUMN_ORDER, numberPicker.getValue());
                             cv.put(DataContract.COLUMN_TS, String.valueOf(System.currentTimeMillis()));
-                            getActivity().getContentResolver().update(DataContract.appendToUri(ID),cv,null,null);
+                            getActivity().getContentResolver().update(DataContract.appendToUri(NAME), cv, null, null);
                             Snackbar.make(fab, "Done, Added to your orders!", Snackbar.LENGTH_SHORT).show();
                             fab.setImageResource(R.drawable.ic_done_white_48dp);
                         }
