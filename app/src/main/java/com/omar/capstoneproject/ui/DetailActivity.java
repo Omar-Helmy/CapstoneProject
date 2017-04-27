@@ -68,6 +68,7 @@ public class DetailActivity extends AppCompatActivity {
         collapsingToolbar.setTitle(cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_NAME)));
         Glide.with(this).load(cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_IMAGE)))
                 .centerCrop().into(imageView);
+        imageView.setContentDescription(cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_NAME)));
 
         /* setup recycle view */
         recyclerAdapter= new RecyclerAdapter();
@@ -89,7 +90,7 @@ public class DetailActivity extends AppCompatActivity {
                     OrderDialog orderDialog = new OrderDialog();
                     orderDialog.show(getSupportFragmentManager(), OrderDialog.class.getSimpleName());
                 }else{
-                    Snackbar.make(fab, "Already added, to remove go to your orders", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(fab, R.string.add_snackbar, Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -109,10 +110,10 @@ public class DetailActivity extends AppCompatActivity {
             numberPicker.setMinValue(1);
             numberPicker.setWrapSelectorWheel(true);
 
-            builder.setTitle("Number of Orders")
-                    .setMessage("Please, choose number of orders:")
+            builder.setTitle(R.string.num_of_orders)
+                    .setMessage(R.string.choose_num_of_orders)
                     .setView(view)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // OK
                             ContentValues cv = new ContentValues(1);
@@ -120,11 +121,11 @@ public class DetailActivity extends AppCompatActivity {
                             cv.put(DataContract.COLUMN_ORDER, numberPicker.getValue());
                             cv.put(DataContract.COLUMN_TS, String.valueOf(System.currentTimeMillis()));
                             getActivity().getContentResolver().update(DataContract.appendToUri(NAME), cv, null, null);
-                            Snackbar.make(fab, "Done, Added to your orders!", Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(fab, R.string.added_snackbar, Snackbar.LENGTH_SHORT).show();
                             fab.setImageResource(R.drawable.ic_done_white_48dp);
                         }
                     })
-                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // User cancelled the dialog
                         }

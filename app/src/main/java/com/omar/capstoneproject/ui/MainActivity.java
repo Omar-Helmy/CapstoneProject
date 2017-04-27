@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(v, "Refreshing data...", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(v, R.string.refresh_snackbar, Snackbar.LENGTH_SHORT).show();
                 fetchDataFromFirebase();
             }
         });
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
         // show progress dialog
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getResources().getString(R.string.loading));
         progressDialog.show();
         // delete the database table:
         getContentResolver().delete(DataContract.DATA_URI,null,null);
@@ -216,9 +216,9 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch(position){
                 case 0:
-                    return "Explore";
+                    return getResources().getString(R.string.explore);
                 case 1:
-                    return "Orders";
+                    return getResources().getString(R.string.order);
                 default:
                     return null;
             }

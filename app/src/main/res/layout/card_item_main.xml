@@ -12,6 +12,7 @@
         android:layout_height="200dp"
         android:scaleType="centerCrop"
         android:id="@+id/card_image"
+        android:contentDescription="@string/main_item"
         android:src="@mipmap/ic_launcher"/>
 
     <TextView
@@ -19,7 +20,6 @@
         android:padding="10dp"
         android:layout_height="match_parent"
         android:id="@+id/card_text"
-        android:text="Hello"
         android:textColor="#ffffff"
         android:background="@drawable/scrim_gradient"
         android:gravity="bottom|center"

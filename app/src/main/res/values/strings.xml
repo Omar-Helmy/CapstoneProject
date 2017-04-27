@@ -1,9 +1,28 @@
 <resources>
-    <string name="app_name">My Food</string>
-    <string name="drawer_toggle_open">open</string>
-    <string name="drawer_toggle_close">close</string>
+    <string name="app_name" translatable="false">My Food</string>
+    <string name="drawer_toggle_open" translatable="false">open</string>
+    <string name="drawer_toggle_close" translatable="false">close</string>
     <string name="nav_home">Home</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="detail_parallex" translatable="false">food image</string>
+    <string name="main_item" translatable="false">food image</string>
+    <string name="price">price</string>
+    <string name="time">time</string>
+    <string name="main_split" translatable="false">food icon</string>
+    <string name="refresh_snackbar">Refreshing data...</string>
+    <string name="explore">EXPLORE</string>
+    <string name="order">ORDERS</string>
+    <string name="explore_split">Explore food menu:</string>
+    <string name="remove_order">Remove Order</string>
+    <string name="sure">Are you sure ?</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="num_of_orders">Number of Orders</string>
+    <string name="choose_num_of_orders">Please, choose number of orders:</string>
+    <string name="refresh">refresh</string>
+    <string name="order_now">order</string>
+    <string name="add_snackbar">Already added, to remove go to your orders</string>
+    <string name="added_snackbar">Done, Added to your orders!</string>
+    <string name="loading">Loading...</string>
 </resources>

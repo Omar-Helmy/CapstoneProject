@@ -34,6 +34,7 @@ import java.util.GregorianCalendar;
 /**
  * A simple {@link Fragment} subclass.
  */
+
 public class SecondFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private Context context;
@@ -160,9 +161,9 @@ public class SecondFragment extends Fragment implements LoaderManager.LoaderCall
                     public boolean onLongClick(View v) {
                         // Delete Dialog:
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setTitle("Remove Order")
-                                .setMessage("Are you sure ?")
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        builder.setTitle(R.string.remove_order)
+                                .setMessage(R.string.sure)
+                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         ContentValues cv = new ContentValues();
                                         cv.put(DataContract.COLUMN_FAVORITE, 0);
@@ -173,7 +174,7 @@ public class SecondFragment extends Fragment implements LoaderManager.LoaderCall
 
                                     }
                                 })
-                                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         // User cancelled the dialog
                                     }

@@ -172,8 +172,8 @@ public class FirstFragment extends Fragment implements LoaderManager.LoaderCallb
             }
 
             public void setupData() {
-                    textView.setText("Explore food menu:");
-                    Glide.with(context).load(R.drawable.salty_icon).crossFade().into(imageView);
+                textView.setText(R.string.explore_split);
+                Glide.with(context).load(R.drawable.salty_icon).crossFade().into(imageView);
                 }
 
             }
@@ -209,6 +209,7 @@ public class FirstFragment extends Fragment implements LoaderManager.LoaderCallb
                 Glide.with(context).load(cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_IMAGE)))
                         //.placeholder()
                         .crossFade().into(imageView);
+                imageView.setContentDescription(cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_NAME)));
             }
         }
     }
