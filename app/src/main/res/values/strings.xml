@@ -16,7 +16,7 @@
     <string name="explore_split">Explore food menu:</string>
     <string name="remove_order">Remove Order</string>
     <string name="sure">Are you sure ?</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="num_of_orders">Number of Orders</string>
     <string name="choose_num_of_orders">Please, choose number of orders:</string>
@@ -25,4 +25,6 @@
     <string name="add_snackbar">Already added, to remove go to your orders</string>
     <string name="added_snackbar">Done, Added to your orders!</string>
     <string name="loading">Loading...</string>
+    <string name="appwidget_text">Food Menu</string>
+    <string name="add_widget">Add widget</string>
 </resources>
