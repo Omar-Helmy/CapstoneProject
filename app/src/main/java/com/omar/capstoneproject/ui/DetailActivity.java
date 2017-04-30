@@ -27,6 +27,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.omar.capstoneproject.R;
 import com.omar.capstoneproject.data.DataContract;
 
@@ -42,6 +45,8 @@ public class DetailActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private static FloatingActionButton fab;
     private static String NAME;
+    private StorageReference storageRef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +60,9 @@ public class DetailActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.detail_recycle_view);
         fab = (FloatingActionButton) findViewById(R.id.order_fab);
 
+        /* Firebase Storage Ref */
+        storageRef = FirebaseStorage.getInstance().getReference("Menu/Images/");
+
         /* setup tool bar */
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -66,8 +74,9 @@ public class DetailActivity extends AppCompatActivity {
 
         /* setup collapse tool bar with title and image*/
         collapsingToolbar.setTitle(cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_NAME)));
-        Glide.with(this).load(cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_IMAGE)))
-                .centerCrop().into(imageView);
+        Glide.with(this).using(new FirebaseImageLoader())
+                .load(storageRef.child(cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_IMAGE))))
+                .centerCrop().crossFade().into(imageView);
         imageView.setContentDescription(cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_NAME)));
 
         /* setup recycle view */

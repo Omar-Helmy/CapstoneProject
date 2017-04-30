@@ -19,6 +19,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.omar.capstoneproject.R;
 import com.omar.capstoneproject.data.DataContract;
 
@@ -31,6 +34,7 @@ public class FirstFragment extends Fragment implements LoaderManager.LoaderCallb
     private RecyclerView recyclerView;
     private RecyclerAdapter recyclerAdapter;
     private final int ID_LOADER = 1;
+    private StorageReference storageRef;
 
     public FirstFragment() {
         // Required empty public constructor
@@ -48,6 +52,9 @@ public class FirstFragment extends Fragment implements LoaderManager.LoaderCallb
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_first, container, false);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycle_view);
+
+        /* Firebase Storage Ref */
+        storageRef = FirebaseStorage.getInstance().getReference("Menu/Images/");
 
         /* setup recycle view with adapter */
         recyclerAdapter= new RecyclerAdapter();
@@ -206,9 +213,11 @@ public class FirstFragment extends Fragment implements LoaderManager.LoaderCallb
             public void setupData(){
                 cursor.moveToPosition(getAdapterPosition()-1);  // we sub one as there is split item at index 0
                 textView.setText(cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_NAME)));
-                Glide.with(context).load(cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_IMAGE)))
+                // Download image using Firebase UI Storage and Glide:
+                Glide.with(context).using(new FirebaseImageLoader())
+                        .load(storageRef.child(cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_IMAGE))))
                         //.placeholder()
-                        .crossFade().into(imageView);
+                        .centerCrop().crossFade().into(imageView);
                 imageView.setContentDescription(cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_NAME)));
             }
         }

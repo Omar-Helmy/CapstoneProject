@@ -34,6 +34,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.omar.capstoneproject.R;
 import com.omar.capstoneproject.data.DataContract;
 
@@ -159,14 +161,16 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.show();
         // delete the database table:
         getContentResolver().delete(DataContract.DATA_URI,null,null);
-        // Firebase
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        // Firebase real time database:
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("menu");
+
         // Read from the database
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     Map<String,String> map = (Map<String, String>) child.getValue();
+                    map.put(DataContract.COLUMN_IMAGE, child.getKey() + ".jpg");
                     Parcel parcel = Parcel.obtain();
                     parcel.writeMap(map);
                     parcel.setDataPosition(0);
