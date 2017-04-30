@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (!networkInfo.isConnectedOrConnecting()) {
             // no internet
-            Toast.makeText(MainActivity.this, "No internet connection!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, R.string.no_internet, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError error) {
                 progressDialog.dismiss();
-                Toast.makeText(MainActivity.this, "No internet connection!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, R.string.no_internet, Toast.LENGTH_SHORT).show();
             }
         });
     }

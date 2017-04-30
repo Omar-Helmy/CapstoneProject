@@ -144,7 +144,7 @@ public class FirstFragment extends Fragment implements LoaderManager.LoaderCallb
 
         @Override
         public int getItemCount() {
-            if (null == cursor) return 0;
+            if (cursor == null) return 0;
             // items = cursor count + split item
             return cursor.getCount() + 1;
         }

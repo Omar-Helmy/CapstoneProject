@@ -21,4 +21,5 @@
     <string name="appwidget_text">قائمة الطعام</string>
     <string name="orders">الطلبات: %1$s</string>
     <string name="add_widget">اضافة ويدجيت</string>
+    <string name="no_internet">لا يوجد اتصال بالانترنت!</string>
 </resources>
