@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_home">الصفحة الرئيسية</string>
+    <string name="price">السعر</string>
+    <string name="time">الوقت</string>
+    <string name="refresh_snackbar">جاري التحميل...</string>
+    <string name="explore">تصفح</string>
+    <string name="order">الطلبات</string>
+    <string name="explore_split">تصفح قائمة الطعام:</string>
+    <string name="remove_order">حذف الطلب</string>
+    <string name="sure">هل انت متأكد ؟</string>
+    <string name="ok">موافق</string>
+    <string name="cancel">الغاء</string>
+    <string name="num_of_orders">عدد الطلبات</string>
+    <string name="choose_num_of_orders">من فضلك اختر عدد الطلبات:</string>
+    <string name="refresh">اعادة تحميل</string>
+    <string name="order_now">طلب</string>
+    <string name="add_snackbar">تم بالفعل للحذف اذهب الي الطلبات</string>
+    <string name="added_snackbar">تم الاضافة الي الطلبات</string>
+    <string name="loading">جاري التحميل...</string>
+    <string name="appwidget_text">قائمة الطعام</string>
+</resources>
