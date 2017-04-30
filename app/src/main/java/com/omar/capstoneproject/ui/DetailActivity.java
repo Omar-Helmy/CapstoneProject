@@ -3,18 +3,14 @@ package com.omar.capstoneproject.ui;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.util.TimeUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -24,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
@@ -32,8 +27,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.omar.capstoneproject.R;
 import com.omar.capstoneproject.data.DataContract;
-
-import java.util.Date;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -80,25 +73,25 @@ public class DetailActivity extends AppCompatActivity {
         imageView.setContentDescription(cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_NAME)));
 
         /* setup recycle view */
-        recyclerAdapter= new RecyclerAdapter();
+        recyclerAdapter = new RecyclerAdapter();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerAdapter.updateCursor(cursor);
 
         /* update fab drawable */
-        fab.setImageResource(cursor.getInt(cursor.getColumnIndex(DataContract.COLUMN_FAVORITE))==1 ?
+        fab.setImageResource(cursor.getInt(cursor.getColumnIndex(DataContract.COLUMN_FAVORITE)) == 1 ?
                 R.drawable.ic_done_white_48dp : R.drawable.ic_add_shopping_cart_white_48dp);
 
         /* order food */
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(cursor.getInt(cursor.getColumnIndex(DataContract.COLUMN_FAVORITE))==0){
+                if (cursor.getInt(cursor.getColumnIndex(DataContract.COLUMN_FAVORITE)) == 0) {
                     // create dialog to get #of orders
                     OrderDialog orderDialog = new OrderDialog();
                     orderDialog.show(getSupportFragmentManager(), OrderDialog.class.getSimpleName());
-                }else{
+                } else {
                     Snackbar.make(fab, R.string.add_snackbar, Snackbar.LENGTH_SHORT).show();
                 }
             }
@@ -112,7 +105,7 @@ public class DetailActivity extends AppCompatActivity {
             // Use the Builder class for convenient dialog construction
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             // Get the layout inflater
-            final View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_number_picker,null);
+            final View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_number_picker, null);
             // Number picker
             final NumberPicker numberPicker = (NumberPicker) view.findViewById(R.id.num_pick);
             numberPicker.setMaxValue(100);
@@ -143,8 +136,9 @@ public class DetailActivity extends AppCompatActivity {
             return builder.create();
         }
     }
+
     /////////////////////////////// Recycle Adapter /////////////////////////////////
-    private class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+    private class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         private Cursor cursor;
         private String[] data = {DataContract.COLUMN_PRICE, DataContract.COLUMN_DESCRIPTION, DataContract.COLUMN_DETAILS, DataContract.COLUMN_INGREDIENT};
@@ -166,7 +160,7 @@ public class DetailActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            if ( null == cursor ) return 0;
+            if (null == cursor) return 0;
             return data.length;
         }
 
@@ -176,13 +170,13 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         /* this method not overridden */
-        public void updateCursor(Cursor c){
+        public void updateCursor(Cursor c) {
             cursor = c;
             notifyDataSetChanged();
         }
 
 
-        public class NormalViewHolder extends RecyclerView.ViewHolder{
+        public class NormalViewHolder extends RecyclerView.ViewHolder {
 
             private final TextView headerText, contentText;
 
@@ -194,7 +188,7 @@ public class DetailActivity extends AppCompatActivity {
                 contentText = (TextView) itemView.findViewById(R.id.item_content);
             }
 
-            public void setupData(){
+            public void setupData() {
                 String column = data[getAdapterPosition()];
                 headerText.setText(column);
                 contentText.setText(cursor.getString(cursor.getColumnIndex(column)));

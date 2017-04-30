@@ -4,11 +4,9 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Binder;
-import android.widget.AdapterView;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-import com.bumptech.glide.Glide;
 import com.omar.capstoneproject.R;
 import com.omar.capstoneproject.data.DataContract;
 

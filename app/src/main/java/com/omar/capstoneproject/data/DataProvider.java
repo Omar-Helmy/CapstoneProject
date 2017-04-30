@@ -1,7 +1,6 @@
 package com.omar.capstoneproject.data;
 
 import android.content.ContentProvider;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -12,15 +11,15 @@ public class DataProvider extends ContentProvider {
 
     // Creates a UriMatcher object.
     private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-    private static final int TABLE_MATCH=1, ITEM_NAME_MATCH=2, ITEM_ID_MATCH=3;
+    private static final int TABLE_MATCH = 1, ITEM_NAME_MATCH = 2, ITEM_ID_MATCH = 3;
 
     // Get database object
     DatabaseHelper databaseHelper;
 
     static {
         uriMatcher.addURI(DataContract.AUTHORITY, DataContract.DATABASE_TABLE_NAME, TABLE_MATCH);
-        uriMatcher.addURI(DataContract.AUTHORITY, DataContract.DATABASE_TABLE_NAME+"/#", ITEM_ID_MATCH);
-        uriMatcher.addURI(DataContract.AUTHORITY, DataContract.DATABASE_TABLE_NAME+"/*", ITEM_NAME_MATCH);
+        uriMatcher.addURI(DataContract.AUTHORITY, DataContract.DATABASE_TABLE_NAME + "/#", ITEM_ID_MATCH);
+        uriMatcher.addURI(DataContract.AUTHORITY, DataContract.DATABASE_TABLE_NAME + "/*", ITEM_NAME_MATCH);
     }
 
     public DataProvider() {
@@ -28,7 +27,7 @@ public class DataProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-         // Creates a new helper object. This method always returns quickly.
+        // Creates a new helper object. This method always returns quickly.
         databaseHelper = new DatabaseHelper(
                 getContext(),        // the application context
                 DataContract.DATABASE_NAME,              // the name of the database)
@@ -44,17 +43,17 @@ public class DataProvider extends ContentProvider {
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         int rows;
-        switch(uriMatcher.match(uri)){
+        switch (uriMatcher.match(uri)) {
             case TABLE_MATCH:
                 rows = db.delete(DataContract.DATABASE_TABLE_NAME, null, null);
                 break;
             case ITEM_ID_MATCH:
                 rows = db.delete(DataContract.DATABASE_TABLE_NAME,
-                        DataContract._ID+" == "+DataContract.getIdFromUri(uri), selectionArgs);
+                        DataContract._ID + " == " + DataContract.getIdFromUri(uri), selectionArgs);
                 break;
             case ITEM_NAME_MATCH:
                 rows = db.delete(DataContract.DATABASE_TABLE_NAME,
-                        DataContract.COLUMN_NAME+" == \""+uri.getLastPathSegment()+"\"", selectionArgs);
+                        DataContract.COLUMN_NAME + " == \"" + uri.getLastPathSegment() + "\"", selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("URI not matched!");
@@ -75,15 +74,16 @@ public class DataProvider extends ContentProvider {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         Uri newUri;
         long id;
-        switch (uriMatcher.match(uri)){
+        switch (uriMatcher.match(uri)) {
             case TABLE_MATCH:
-                id = db.insert(DataContract.DATABASE_TABLE_NAME,null,contentValues);
-                if(id>0){
+                id = db.insert(DataContract.DATABASE_TABLE_NAME, null, contentValues);
+                if (id > 0) {
                     newUri = DataContract.appendToUri(id);
                     getContext().getContentResolver().notifyChange(newUri, null);
                     break;
                 }
-            default: throw new UnsupportedOperationException("URI not matched!");
+            default:
+                throw new UnsupportedOperationException("URI not matched!");
         }
         db.close();
         return newUri;
@@ -94,23 +94,24 @@ public class DataProvider extends ContentProvider {
                         String[] selectionArgs, String sortOrder) {
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         Cursor newCursor;
-        switch (uriMatcher.match(uri)){
+        switch (uriMatcher.match(uri)) {
             case TABLE_MATCH:
-                newCursor = db.query(DataContract.DATABASE_TABLE_NAME,projection,selection,selectionArgs,null,null,sortOrder);
+                newCursor = db.query(DataContract.DATABASE_TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 newCursor.setNotificationUri(getContext().getContentResolver(), uri);
                 break;
             case ITEM_ID_MATCH: /*NOTE: must match numeric # first before * as * will match any number or string!! */
-                newCursor = db.query(DataContract.DATABASE_TABLE_NAME,projection,
-                        DataContract._ID+" == "+DataContract.getIdFromUri(uri),selectionArgs,null,null,sortOrder);
+                newCursor = db.query(DataContract.DATABASE_TABLE_NAME, projection,
+                        DataContract._ID + " == " + DataContract.getIdFromUri(uri), selectionArgs, null, null, sortOrder);
                 newCursor.setNotificationUri(getContext().getContentResolver(), uri);
                 break;
             case ITEM_NAME_MATCH:
-                newCursor = db.query(DataContract.DATABASE_TABLE_NAME,projection,
-                        DataContract.COLUMN_NAME+" == \""+uri.getLastPathSegment()+"\"",selectionArgs,null,null,sortOrder);
+                newCursor = db.query(DataContract.DATABASE_TABLE_NAME, projection,
+                        DataContract.COLUMN_NAME + " == \"" + uri.getLastPathSegment() + "\"", selectionArgs, null, null, sortOrder);
                 newCursor.setNotificationUri(getContext().getContentResolver(), uri);
                 break;
 
-            default: throw new UnsupportedOperationException("URI not matched!");
+            default:
+                throw new UnsupportedOperationException("URI not matched!");
         }
         //db.close();   // causes crash!!
         return newCursor;
@@ -121,14 +122,14 @@ public class DataProvider extends ContentProvider {
                       String[] selectionArgs) {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         int rows;
-        switch(uriMatcher.match(uri)){
+        switch (uriMatcher.match(uri)) {
             case ITEM_ID_MATCH:
                 rows = db.update(DataContract.DATABASE_TABLE_NAME, values,
-                        DataContract._ID+" == "+DataContract.getIdFromUri(uri), selectionArgs);
+                        DataContract._ID + " == " + DataContract.getIdFromUri(uri), selectionArgs);
                 break;
             case ITEM_NAME_MATCH:
                 rows = db.update(DataContract.DATABASE_TABLE_NAME, values,
-                        DataContract.COLUMN_NAME+" == \""+uri.getLastPathSegment()+"\"", selectionArgs);
+                        DataContract.COLUMN_NAME + " == \"" + uri.getLastPathSegment() + "\"", selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("URI not matched!");

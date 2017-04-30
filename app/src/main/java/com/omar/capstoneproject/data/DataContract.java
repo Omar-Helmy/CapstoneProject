@@ -7,14 +7,14 @@ import android.provider.BaseColumns;
 /**
  * Created by OMAR on 06/04/2017.
  */
-public final class DataContract implements BaseColumns{
+public final class DataContract implements BaseColumns {
 
     /*Content Provider*/
     public static final String AUTHORITY = "com.omar.capstoneproject";
     public static final String DATABASE_NAME = "db";
     public static final String DATABASE_TABLE_NAME = "foods";
     public static final int DATABASE_VERSION = 1;
-    public static final Uri DATA_URI = Uri.parse("content://"+AUTHORITY+"/"+DATABASE_TABLE_NAME);
+    public static final Uri DATA_URI = Uri.parse("content://" + AUTHORITY + "/" + DATABASE_TABLE_NAME);
 
     /*Database Columns Name*/
     public static final String COLUMN_NAME = "name";
@@ -43,15 +43,16 @@ public final class DataContract implements BaseColumns{
     public static final int POSITION_TS = 10;
 
     // create Uri with appended string to it to match "*"
-    public static Uri appendToUri(String path){
+    public static Uri appendToUri(String path) {
         return DATA_URI.buildUpon().appendPath(path).build();
     }
+
     // create Uri with appended string to it to match "#"
-    public static Uri appendToUri(long id){
+    public static Uri appendToUri(long id) {
         return ContentUris.withAppendedId(DATA_URI, id);
     }
 
-    public static String getIdFromUri(Uri uri){
+    public static String getIdFromUri(Uri uri) {
         return String.valueOf(ContentUris.parseId(uri));
     }
 }

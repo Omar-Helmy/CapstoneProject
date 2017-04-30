@@ -4,32 +4,23 @@ package com.omar.capstoneproject.ui;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.omar.capstoneproject.R;
 import com.omar.capstoneproject.data.DataContract;
-
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,7 +51,7 @@ public class SecondFragment extends Fragment implements LoaderManager.LoaderCall
         recyclerView = (RecyclerView) fragmentLayout.findViewById(R.id.recycle_view_orders);
 
         /* setup recycle view with adapter */
-        recyclerAdapter= new RecyclerAdapter();
+        recyclerAdapter = new RecyclerAdapter();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(recyclerAdapter);
@@ -74,8 +65,8 @@ public class SecondFragment extends Fragment implements LoaderManager.LoaderCall
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         // creates new loader with cursor carries the required data based on id (salty or sweet)
         String[] projection = {DataContract.COLUMN_NAME, DataContract.COLUMN_TS, DataContract.COLUMN_PRICE, DataContract.COLUMN_ORDER};
-        String selection = DataContract.COLUMN_FAVORITE+" == 1";
-        switch (id){
+        String selection = DataContract.COLUMN_FAVORITE + " == 1";
+        switch (id) {
             case ID_LOADER:
                 return new CursorLoader(context, DataContract.DATA_URI, projection, selection, null, null);
             default:
@@ -86,7 +77,7 @@ public class SecondFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         // update cursors of adapters
-        switch (loader.getId()){
+        switch (loader.getId()) {
             case ID_LOADER:
                 recyclerAdapter.updateCursor(data);
                 break;
@@ -105,7 +96,7 @@ public class SecondFragment extends Fragment implements LoaderManager.LoaderCall
     }
 
     /////////////////////////////// Recycle Adapter /////////////////////////////////
-    private class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+    private class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         private Cursor cursor;
 
@@ -126,7 +117,7 @@ public class SecondFragment extends Fragment implements LoaderManager.LoaderCall
 
         @Override
         public int getItemCount() {
-            if ( null == cursor ) return 0;
+            if (null == cursor) return 0;
             // items = cursor count
             return cursor.getCount();
         }
@@ -137,12 +128,12 @@ public class SecondFragment extends Fragment implements LoaderManager.LoaderCall
         }
 
         /* this method not overridden */
-        public void updateCursor(Cursor c){
+        public void updateCursor(Cursor c) {
             cursor = c;
             notifyDataSetChanged();
         }
 
-        public class NormalViewHolder extends RecyclerView.ViewHolder{
+        public class NormalViewHolder extends RecyclerView.ViewHolder {
 
             private final TextView nameText, timeText, priceText, countText; // must be final
 
@@ -170,7 +161,7 @@ public class SecondFragment extends Fragment implements LoaderManager.LoaderCall
                                         cursor.moveToPosition(getAdapterPosition());
                                         context.getContentResolver().update(
                                                 DataContract.appendToUri(cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_NAME))),
-                                                cv,null,null);
+                                                cv, null, null);
 
                                     }
                                 })
@@ -185,13 +176,13 @@ public class SecondFragment extends Fragment implements LoaderManager.LoaderCall
                 });
             }
 
-            public void setupData(){
+            public void setupData() {
                 cursor.moveToPosition(getAdapterPosition());
                 nameText.setText(cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_NAME)));
                 timeText.setText(DateFormat.format("hh:mm a - dd/MM/yyyy",
                         Long.parseLong(cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_TS)))));
                 priceText.setText(cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_PRICE)));
-                countText.setText("Orders: "+cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_ORDER)));
+                countText.setText(getResources().getString(R.string.orders, cursor.getString(cursor.getColumnIndex(DataContract.COLUMN_ORDER))));
             }
         }
     }

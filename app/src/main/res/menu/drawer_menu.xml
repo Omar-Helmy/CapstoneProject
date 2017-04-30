@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2015 The Android Open Source Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,18 +19,7 @@
         <item
             android:id="@+id/nav_home"
             android:title="@string/nav_home" />
-        <item
-            android:id="@+id/nav_messages"
-            android:title="Messages" />
     </group>
 
-    <item android:title="Sub items">
-        <menu>
-            <item
-                android:title="Sub item 1" />
-            <item
-                android:title="Sub item 2" />
-        </menu>
-    </item>
 
 </menu>

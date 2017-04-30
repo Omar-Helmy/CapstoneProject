@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -40,7 +39,7 @@
                 android:id="@+id/detail_toolbar"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:layout_collapseMode="pin"
-                android:layout_height="?actionBarSize"/>
+                android:layout_height="?actionBarSize" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
@@ -50,7 +49,7 @@
         android:layout_marginTop="20dp"
         android:layout_height="match_parent"
         android:id="@+id/detail_recycle_view"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
@@ -62,6 +61,6 @@
         app:layout_anchorGravity="bottom|right|end"
         app:fabSize="normal"
         android:id="@+id/order_fab"
-        app:pressedTranslationZ="6dp"/>
+        app:pressedTranslationZ="6dp" />
 
 </android.support.design.widget.CoordinatorLayout>

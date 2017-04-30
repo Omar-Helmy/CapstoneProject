@@ -18,18 +18,18 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE "+DataContract.DATABASE_TABLE_NAME+
-                " ("+DataContract._ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
-                DataContract.COLUMN_NAME+" TEXT NOT NULL, "+
-                DataContract.COLUMN_PRICE+" TEXT NOT NULL, "+
-                DataContract.COLUMN_DESCRIPTION+" TEXT NOT NULL, "+
-                DataContract.COLUMN_INGREDIENT+" TEXT NOT NULL, "+
-                DataContract.COLUMN_ORDER+" TEXT, "+
-                DataContract.COLUMN_DETAILS+" TEXT NOT NULL, "+
-                DataContract.COLUMN_IMAGE+" TEXT NOT NULL, "+
-                DataContract.COLUMN_TYPE+" TEXT NOT NULL, "+
-                DataContract.COLUMN_FAVORITE+" INTEGER, "+
-                DataContract.COLUMN_TS+" TEXT);");
+        db.execSQL("CREATE TABLE " + DataContract.DATABASE_TABLE_NAME +
+                " (" + DataContract._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DataContract.COLUMN_NAME + " TEXT NOT NULL, " +
+                DataContract.COLUMN_PRICE + " TEXT NOT NULL, " +
+                DataContract.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
+                DataContract.COLUMN_INGREDIENT + " TEXT NOT NULL, " +
+                DataContract.COLUMN_ORDER + " TEXT, " +
+                DataContract.COLUMN_DETAILS + " TEXT NOT NULL, " +
+                DataContract.COLUMN_IMAGE + " TEXT NOT NULL, " +
+                DataContract.COLUMN_TYPE + " TEXT NOT NULL, " +
+                DataContract.COLUMN_FAVORITE + " INTEGER, " +
+                DataContract.COLUMN_TS + " TEXT);");
     }
 
     @Override
